@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>FilmWise</title>
+	<link href="{% static 'website/css/bootstrap.min.css' %}" rel="stylesheet" >
+	<link href="{% static 'website/css/font-awesome.min.css' %}" rel="stylesheet" >
+	<link href="{% static 'website/css/global.css' %}" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Rajdhani&display=swap" rel="stylesheet">
+	<script src="{% static 'website/js/bootstrap.bundle.min.js' %}"></script>
+
+</head>
+<body>
+
+<section id="top">
+<div class="container">
+ <div class="row top_1">
+  <div class="col-md-3">
+   <div class="top_1l pt-1">
+    <h3 class="mb-0"><a class="text-white" href="{% url 'home_page' %}"><i class="fa fa-film col_red me-1"></i> FilmWise</a></h3>
+   </div>
+  </div>
+  <div class="col-md-5">
+   <div class="top_1m">
+   </div>
+  </div>
+  <div class="col-md-4 text-end">
+
+  {% if request.session.Name %}
+    <div class="dropdown">
+      <a href="#" class="btn btn-outline-light rounded-pill px-3 py-2 dropdown-toggle"
+         role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa fa-user-circle me-1 fa fa-user me-2"></i>
+         {{ request.session.Name }}
+      </a>
+
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+          <a class="dropdown-item" href="{% url 'user_logout' %}">
+            <i class="fa fa-sign-out me-2"></i> Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  {% else %}
+    <a href="{% url 'login' %}" class="btn btn-outline-light rounded-pill px-3 py-2">
+      <i class="fa fa-user-o me-1 fa fa-user me-2"></i> Login
+    </a>
+  {% endif %}
+
+</div>
+
+ </div>
+</div>
+</section>
+
+<section id="header">
+<nav class="navbar navbar-expand-md navbar-light" id="navbar_sticky">
+  <div class="container">
+    <a class="navbar-brand text-white fw-bold" href="{% url 'home_page' %}">
+      <i class="fa fa-film col_red me-1"></i> FilmWise
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-auto mb-0 fw-semibold">
+
+        <li class="nav-item">
+          <a class="nav-link " href="{% url 'home_page' %}"><i class="fa fa-home me-1"></i> Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about_page' %}"><i class="fa fa-info-circle me-1"></i> About</a>
+        </li>
+
+
+
+        <li class="nav-item">
+{% if request.session.Name %}
+  <a class="nav-link" href="{% url 'watchlist' %}">
+    <i class="fa fa-bookmark me-1"></i> Watchlist
+  </a>
+{% else %}
+  <a class="nav-link" href="{% url 'login' %}?next={% url 'watchlist' %}">
+    <i class="fa fa-bookmark me-1"></i> Watchlist
+  </a>
+{% endif %}
+</li>
+
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="linksDropdown" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">
+             <i class="fa fa-film me-1"></i> Movies
+          </a>
+          <ul class="dropdown-menu drop_1" aria-labelledby="linksDropdown">
+            <li><a class="dropdown-item" href="{% url 'browse_page' %}"><i class="fa fa-th-list me-1"></i> Browse</a></li>
+            <li><a class="dropdown-item" href="{% url 'genre_page' %}"><i class="fa fa-tags me-1"></i> Genre Movies</a></li>
+            <!-- <li><a class="dropdown-item border-0" href="movie_detail.html"><i class="fa fa-info me-1"></i> Movie Detail</a></li> -->
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'contact_page' %}"><i class="fa fa-envelope me-1"></i> Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</section>
+
+<section id="center" class="center_o pt-2 pb-2">
+ <div class="container-xl">
+  <div class="row center_o1">
+   <div class="col-md-5">
+     <div class="center_o1l">
+	  <h2 class="mb-0">Contact</h2>
+	 </div>
+   </div>
+   <div class="col-md-7">
+     <div class="center_o1r text-end">
+	  <h6 class="mb-0 col_red"><a href="#">Home</a> <span class="me-2 ms-2 text-light"><i class="fa fa-caret-right align-middle"></i></span> Contact</h6>
+	 </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="contact" class="pt-4 pb-4">
+ <div class="container-xl">
+  <div class="row contact_1   pt-5 pb-5">
+
+   <div class="col-md-3">
+    <div class="contact_1i row">
+	 <div class="col-md-2 col-2">
+	  <div class="contact_1il">
+	   <span class="col_red fs-3"><i class="fa fa-map-marker"></i></span>
+	  </div>
+	 </div>
+	 <div class="col-md-10 col-10">
+	  <div class="contact_1ir">
+	   <h5 class="col_red">Head Office</h5>
+	   <p class="mb-0">FilmWise Pvt. Ltd.</p>
+	   <p class="mb-0">MG Road, Thrissur, Kerala – 680001, India</p>
+	  </div>
+	 </div>
+	</div>
+   </div>
+
+   <div class="col-md-3">
+    <div class="contact_1i row">
+	 <div class="col-md-2 col-2">
+	  <div class="contact_1il">
+	   <span class="col_red fs-3"><i class="fa fa-clock-o"></i></span>
+	  </div>
+	 </div>
+	 <div class="col-md-10 col-10">
+	  <div class="contact_1ir">
+	   <h5 class="col_red">Office Hours</h5>
+	   <p class="mb-0">Monday – Saturday: 09:30 AM – 06:30 PM</p>
+	   <p class="mb-0">Sunday – Closed</p>
+	  </div>
+	 </div>
+	</div>
+   </div>
+
+   <div class="col-md-3">
+    <div class="contact_1i row">
+	 <div class="col-md-2 col-2">
+	  <div class="contact_1il">
+	   <span class="col_red fs-3"><i class="fa fa-envelope"></i></span>
+	  </div>
+	 </div>
+	 <div class="col-md-10 col-10">
+	  <div class="contact_1ir">
+	   <h5 class="col_red">E-mail</h5>
+	   <p class="mb-0">support@filmwise.com</p>
+	   <p class="mb-0">business@filmwise.com</p>
+	  </div>
+	 </div>
+	</div>
+   </div>
+
+   <div class="col-md-3">
+    <div class="contact_1i row">
+	 <div class="col-md-2 col-2">
+	  <div class="contact_1il">
+	   <span class="col_red fs-3"><i class="fa fa-phone"></i></span>
+	  </div>
+	 </div>
+	 <div class="col-md-10 col-10">
+	  <div class="contact_1ir">
+	   <h5 class="col_red">Phone Numbers</h5>
+	   <p class="mb-0">+91 4887 351 220</p>
+	   <p class="mb-0">+91 98473 21055</p>
+	  </div>
+	 </div>
+	</div>
+   </div>
+  </div>
+
+  <div class="row contact_2 mt-4">
+   <div class="col-md-3">
+    <div class="contact_2r">
+	  <h5 class="mb-3">INTERNATIONAL OFFICE – DUBAI</h5>
+	  <p><i class="fa fa-car col_red me-1"></i> Business Bay, Dubai – UAE</p>
+	  <p><i class="fa fa-phone col_red me-1"></i> +971 56 215 8342</p>
+	  <p><i class="fa fa-globe col_red me-1"></i> <a href="#">support@filmwise.com</a></p>
+	  <p><i class="fa fa-envelope col_red me-1"></i> <a href="#">partners@filmwise.com</a></p>
+
+	  <h5 class="mb-3 mt-4">BUSINESS HOURS</h5>
+	  <p>Global support available 24/7</p>
+	  <p>Monday – Friday : <span class="fw-bold text-white">9 AM to 7 PM</span></p>
+	  <p>Saturday : <span class="fw-bold text-white">11 AM to 3 PM</span></p>
+	  <p>Sunday : <span class="fw-bold text-white">Closed</span></p>
+	</div>
+   </div>
+
+   <div class="col-md-9">
+    <div class="contact_2l row">
+	 <div class="col-md-12">
+	  <h4>GET IN TOUCH</h4>
+	 </div>
+	</div>
+<form action="{% url 'contact_page' %}" method="POST">
+    {% csrf_token %}
+
+    <div class="contact_2l1 mt-3 row">
+        <div class="col-md-6">
+            <div class="contact_2l1i">
+                <input class="form-control" placeholder="Full Name*" type="text" name="name" required>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="contact_2l1i">
+                <input class="form-control" placeholder="Email Address*" type="email" name="contact" required>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact_2l1 mt-3 row">
+        <div class="col-md-6">
+            <div class="contact_2l1i">
+                <input class="form-control" placeholder="Phone Number*" type="text" name="contact" required>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="contact_2l1i">
+                <input class="form-control" placeholder="Subject*" type="text" name="subject" required>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact_2l1 mt-3 row">
+        <div class="col-md-12">
+            <div class="contact_2l1i">
+                <textarea placeholder="Message" class="form-control form_text" name="message" required></textarea>
+                <h6 class="mt-3 mb-0">
+                    <button type="submit" class="button">Submit</button>
+                </h6>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+   </div>
+  </div>
+
+  <div class="row contact_3 mt-4">
+   <div class="col-md-12">
+     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.0268873737!2d76.20968257491982!3d10.528953665458624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba7ee4c6b8f9f99%3A0x4f7bc73a926fcf5c!2sMG%20Road%2C%20Thrissur%2C%20Kerala!5e0!3m2!1sen!2sin!4v1699899999999" height="450" style="border:0; width:100%;" allowfullscreen=""></iframe>
+   </div>
+  </div>
+
+ </div>
+</section>
+
+
+<section id="footer">
+<div class="footer_m clearfix" >
+ <div class="container">
+   <div class="row footer_1"  style="background:#000; padding:20px; border-radius:6px;">
+
+    <!-- Brand + Details -->
+    <div class="col-md-4">
+	 <div class="footer_1i">
+	   <h3><a class="text-white" href="{% url 'home_page' %}"><i class="fa fa-film col_red me-1"></i> FilmWise</a></h3>
+	   <p class="mt-3">FilmWise brings intelligent movie discovery powered by AI — helping you explore cinema based on mood, taste, and real viewing patterns.</p>
+
+	   <h6 class="fw-normal mt-3">
+         <i class="fa fa-map-marker fs-5 align-middle col_red me-1"></i>
+         MG Road, Thrissur, Kerala 680001, India
+       </h6>
+
+       <h6 class="fw-normal mt-3">
+         <i class="fa fa-envelope fs-5 align-middle col_red me-1"></i>
+         support@filmwise.ai
+       </h6>
+
+	   <h6 class="fw-normal mt-3 mb-0">
+         <i class="fa fa-phone fs-5 align-middle col_red me-1"></i>
+         +91 9047 256 830
+       </h6>
+	 </div>
+	</div>
+	<div class="col-md-4">
+	</div>
+	<div class="col-md-4">
+	 <div class="footer_1i">
+	  <h4>Quick <span class="col_red">Links</span></h4>
+      <ul class="mt-4" style="line-height: 32px;">
+          <li><a href="{% url 'home_page' %}">Home</a></li>
+          <li><a href="{% url 'about_page' %}">About</a></li>
+          <li><a href="{% url 'browse_page' %}">Browse</a></li>
+          <li><a href="{% url 'genre_page' %}">Genre</a></li>
+          <li><a href="{% url 'contact_page' %}">Contact</a></li>
+        </ul>
+	 </div>
+	</div>
+
+   </div>
+ </div>
+</div>
+</section>
+
+<section id="footer_b" class="pt-4 pb-4 bg-black text-white">
+  <div class="container">
+    <div class="row align-items-center">
+
+      <!-- LEFT SIDE -->
+      <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+        <p class="mb-0 small">
+          © 2025 FilmWise. All Rights Reserved 
+        </p>
+      </div>
+
+      <!-- RIGHT SIDE LINKS -->
+      <div class="col-md-6 text-center text-md-end">
+        <ul class="list-unstyled mb-0">
+          <li class="d-inline-block me-3"><a href="{% url 'home_page' %}" class="text-white text-decoration-none">Home</a></li>
+          <li class="d-inline-block me-3"><a href="{% url 'about_page' %}" class="text-white text-decoration-none">About</a></li>
+          <li class="d-inline-block me-3"><a href="{% url 'browse_page' %}" class="text-white text-decoration-none">Browse</a></li>
+          <li class="d-inline-block me-3"><a href="{% url 'genre_page' %}" class="text-white text-decoration-none">Genre</a></li>
+          <li class="d-inline-block"><a href="{% url 'contact_page' %}" class="text-white text-decoration-none">Contact</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<script>
+window.onscroll = function() {myFunction()};
+
+var navbar_sticky = document.getElementById("navbar_sticky");
+var sticky = navbar_sticky.offsetTop;
+var navbar_height = document.querySelector('.navbar').offsetHeight;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky + navbar_height) {
+    navbar_sticky.classList.add("sticky")
+	document.body.style.paddingTop = navbar_height + 'px';
+  } else {
+    navbar_sticky.classList.remove("sticky");
+	document.body.style.paddingTop = '0'
+  }
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% if messages %}
+  {% for i in messages %}
+    <script>
+      Swal.fire({
+        title: "FilmWise",
+        text: "{{ i|escapejs }}",
+        background: "#000",
+        color: "#e50914",
+        icon: "{{ i.tags }}",
+        iconColor: "#e50914",
+        confirmButtonColor: "#e50914",
+        timer: 2500,
+        showConfirmButton: false
+      });
+    </script>
+  {% endfor %}
+{% endif %}
+
+</body>
+
+</html>

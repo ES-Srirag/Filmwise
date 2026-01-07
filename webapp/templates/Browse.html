@@ -1,0 +1,501 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>FilmWise</title>
+	<link href="{% static 'website/css/bootstrap.min.css' %}" rel="stylesheet" >
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+	<link href="{% static 'website/css/font-awesome.min.css' %}" rel="stylesheet" >
+	<link href="{% static 'website/css/global.css' %}" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Rajdhani&display=swap" rel="stylesheet">
+	<script src="{% static 'website/js/bootstrap.bundle.min.js' %}"></script>
+
+</head>
+<body>
+
+<section id="top">
+<div class="container">
+ <div class="row top_1">
+  <div class="col-md-3">
+   <div class="top_1l pt-1">
+    <h3 class="mb-0"><a class="text-white" href="{% url 'home_page' %}"><i class="fa fa-film col_red me-1"></i> FilmWise</a></h3>
+   </div>
+  </div>
+  <div class="col-md-5">
+   <div class="top_1m">
+   </div>
+  </div>
+  <div class="col-md-4 text-end">
+
+  {% if request.session.Name %}
+    <div class="dropdown">
+      <a href="#" class="btn btn-outline-light rounded-pill px-3 py-2 dropdown-toggle"
+         role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa fa-user-circle me-1 fa fa-user me-2"></i>
+         {{ request.session.Name }}
+      </a>
+
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+          <a class="dropdown-item" href="{% url 'user_logout' %}">
+            <i class="fa fa-sign-out me-2"></i> Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  {% else %}
+    <a href="{% url 'login' %}" class="btn btn-outline-light rounded-pill px-3 py-2">
+      <i class="fa fa-user-o me-1 fa fa-user me-2"></i> Login
+    </a>
+  {% endif %}
+
+</div>
+
+ </div>
+</div>
+</section>
+
+<section id="header">
+<nav class="navbar navbar-expand-md navbar-light" id="navbar_sticky">
+  <div class="container">
+    <a class="navbar-brand text-white fw-bold" href="{% url 'home_page' %}">
+      <i class="fa fa-film col_red me-1"></i> FilmWise
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-auto mb-0 fw-semibold">
+
+        <li class="nav-item">
+          <a class="nav-link " href="{% url 'home_page' %}"><i class="fa fa-home me-1"></i> Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about_page' %}"><i class="fa fa-info-circle me-1"></i> About</a>
+        </li>
+
+
+
+        <li class="nav-item">
+{% if request.session.Name %}
+  <a class="nav-link" href="{% url 'watchlist' %}">
+    <i class="fa fa-bookmark me-1"></i> Watchlist
+  </a>
+{% else %}
+  <a class="nav-link" href="{% url 'login' %}?next={% url 'watchlist' %}">
+    <i class="fa fa-bookmark me-1"></i> Watchlist
+  </a>
+{% endif %}
+</li>
+
+
+        <li class="nav-item  dropdown">
+          <a class="nav-link active dropdown-toggle" href="#" id="linksDropdown" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">
+             <i class="fa fa-film me-1"></i> Movies
+          </a>
+          <ul class="dropdown-menu drop_1" aria-labelledby="linksDropdown">
+            <li><a class="dropdown-item" href="{% url 'browse_page' %}"><i class="fa fa-th-list me-1"></i> Browse</a></li>
+            <li><a class="dropdown-item" href="{% url 'genre_page' %}"><i class="fa fa-tags me-1"></i> Genre Movies</a></li>
+            <!-- <li><a class="dropdown-item border-0" href="movie_detail.html"><i class="fa fa-info me-1"></i> Movie Detail</a></li> -->
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="{% url 'contact_page' %}"><i class="fa fa-envelope me-1"></i> Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</section>
+
+<section id="popular" class="pt-4 pb-5 ">
+<div class="container">
+
+  <!-- Header -->
+  <div class="row trend_1">
+    <div class="col-md-12">
+      <div class="trend_1l">
+        <h4 class="mb-0">
+          <i class="fa fa-youtube-play align-middle col_red me-1"></i>
+          Browse <span class="col_red">Movies</span>
+        </h4>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- SEARCH BAR -->
+  <div class="row mt-4">
+    <form method="get" action="{% url 'browse_page' %}">
+      <div class="col-md-5">
+        <div class="top_1m">
+          <div class="input-group">
+            <input type="text" name="search" class="form-control bg-black text-white" placeholder="Search Site...">
+            <span class="input-group-btn">
+              <button class="btn text-white bg_red rounded-0 border-0" type="submit">
+                Search
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+  <!-- CATEGORY TABS -->
+<div class="row popular_1 mt-4">
+  <div class="catalog-nav">
+
+    <div class="slider-radio">
+
+      <a href="?category=popular"
+         class="filter-btn {% if category == 'popular' %}active{% endif %}">
+        Popular
+      </a>
+
+      <a href="?category=now_playing"
+         class="filter-btn {% if category == 'now_playing' %}active{% endif %}">
+        Now Playing
+      </a>
+
+      <a href="?category=top_rated"
+         class="filter-btn {% if category == 'top_rated' %}active{% endif %}">
+        Top Rated
+      </a>
+
+      <a href="?category=upcoming"
+         class="filter-btn {% if category == 'upcoming' %}active{% endif %}">
+        Upcoming
+      </a>
+
+      <span class="sliding-piece"></span>
+    </div>
+
+  </div>
+</div>
+<style>
+  .catalog-nav {
+  display: flex;
+  align-items: center;
+}
+
+.slider-radio {
+  position: relative;
+  display: inline-flex;
+  background: #111;
+  border-radius: 30px;
+  padding: 4px;
+}
+
+.filter-btn {
+  position: relative;
+  z-index: 2;
+  padding: 8px 18px;
+  color: #f71a1a;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 25px;
+  transition: color 0.2s ease;
+}
+
+.filter-btn:hover {
+  color: #fff;
+}
+
+.filter-btn.active {
+  color: #fff;
+}
+
+.sliding-piece {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  height: calc(100% - 8px);
+  background: #e00f0f;
+  border-radius: 25px;
+  transition: all 0.25s ease;
+  z-index: 1;
+}
+
+</style>
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const active = document.querySelector(".filter-btn.active");
+    const slider = document.querySelector(".sliding-piece");
+
+    if (!active) return;
+
+    const rect = active.getBoundingClientRect();
+    const parentRect = active.parentElement.getBoundingClientRect();
+
+    slider.style.width = rect.width + "px";
+    slider.style.left = (rect.left - parentRect.left) + "px";
+  });
+</script>
+
+
+
+  
+<!-- MOVIE RESULTS -->
+<div class="popular_2 row mt-4">
+  {% for movie in movies %}
+  <div class="col-sm-6 col-md-4 col-lg-3 mt-3">
+    <a href="{% url 'movie_detail' movie.id %}" class="movie-card-link">
+      <div class="movie-card">
+
+        <!-- POSTER -->
+        <div class="poster">
+          <img src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}"
+               alt="{{ movie.title }}">
+        </div>
+
+        <!-- INFO -->
+        <div class="movie-info">
+          <h5>{{ movie.title }}</h5>
+          <span class="rating">⭐ {{ movie.vote_average|floatformat:1 }}/10</span>
+          <p>{{ movie.overview|truncatewords:20 }}</p>
+
+          <!-- WATCHLATER BUTTON -->
+{% if request.session.Name %}
+  <a href="{% url 'add_watchlist' movie.id %}" class="watchlater-btn">
+    <i class="fa fa-bookmark"></i>
+  </a>
+{% else %}
+  <a href="{% url 'login' %}" class="watchlater-btn">
+    <i class="fa fa-bookmark"></i>
+  </a>
+{% endif %}
+
+        </div>
+
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+
+<style>
+.movie-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* Movie Card */
+.movie-card {
+  background: #111;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 100%;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.movie-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Poster */
+.poster img {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+
+
+/* Movie Info */
+.movie-info {
+  padding: 10px 0;
+  padding-left: 10px;
+  flex-grow: 1;
+}
+
+.movie-info h5 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #e50914;
+  margin-bottom: 6px;
+}
+
+.rating {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.movie-info p {
+  font-size: 0.9rem;
+  color: #bbb;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+/* WATCHLATER BUTTON */
+.watchlater-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(229, 9, 20, 0.9);
+  color: #fff;
+  font-size: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  transform: scale(0.9);
+
+  cursor: pointer;
+  z-index: 5;
+  pointer-events: auto;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+/* Show on hover */
+.movie-card:hover .watchlater-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Button hover */
+.watchlater-btn:hover {
+  background: #fff9fa;
+  color: #e50914;
+  transform: scale(1.1);
+}
+
+
+
+
+</style>
+
+</div>
+</section>
+
+
+
+<section id="footer">
+<div class="footer_m clearfix" >
+ <div class="container">
+   <div class="row footer_1"  style="background:#000; padding:20px; border-radius:6px;">
+
+    <!-- Brand + Details -->
+    <div class="col-md-4">
+	 <div class="footer_1i">
+	   <h3><a class="text-white" href="{% url 'home_page' %}"><i class="fa fa-film col_red me-1"></i> FilmWise</a></h3>
+	   <p class="mt-3">FilmWise brings intelligent movie discovery powered by AI — helping you explore cinema based on mood, taste, and real viewing patterns.</p>
+
+	   <h6 class="fw-normal mt-3">
+         <i class="fa fa-map-marker fs-5 align-middle col_red me-1"></i>
+         MG Road, Thrissur, Kerala 680001, India
+       </h6>
+
+       <h6 class="fw-normal mt-3">
+         <i class="fa fa-envelope fs-5 align-middle col_red me-1"></i>
+         support@filmwise.ai
+       </h6>
+
+	   <h6 class="fw-normal mt-3 mb-0">
+         <i class="fa fa-phone fs-5 align-middle col_red me-1"></i>
+         +91 9047 256 830
+       </h6>
+	 </div>
+	</div>
+	<div class="col-md-4">
+	</div>
+	<div class="col-md-4">
+	 <div class="footer_1i">
+	  <h4>Quick <span class="col_red">Links</span></h4>
+      <ul class="mt-4" style="line-height: 32px;">
+          <li><a href="{% url 'home_page' %}">Home</a></li>
+          <li><a href="{% url 'about_page' %}">About</a></li>
+          <li><a href="{% url 'browse_page' %}">Browse</a></li>
+          <li><a href="{% url 'genre_page' %}">Genre</a></li>
+          <li><a href="{% url 'contact_page' %}">Contact</a></li>
+        </ul>
+	 </div>
+	</div>
+
+   </div>
+ </div>
+</div>
+</section>
+
+<section id="footer_b" class="pt-4 pb-4 bg-black text-white">
+  <div class="container">
+    <div class="row align-items-center">
+
+      <!-- LEFT SIDE -->
+      <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+        <p class="mb-0 small">
+          © 2025 FilmWise. All Rights Reserved 
+        </p>
+      </div>
+
+      <!-- RIGHT SIDE LINKS -->
+      <div class="col-md-6 text-center text-md-end">
+        <ul class="list-unstyled mb-0">
+          <li class="d-inline-block me-3"><a href="{% url 'home_page' %}" class="text-white text-decoration-none">Home</a></li>
+          <li class="d-inline-block me-3"><a href="{% url 'about_page' %}" class="text-white text-decoration-none">About</a></li>
+          <li class="d-inline-block me-3"><a href="{% url 'browse_page' %}" class="text-white text-decoration-none">Browse</a></li>
+          <li class="d-inline-block me-3"><a href="{% url 'genre_page' %}" class="text-white text-decoration-none">Genre</a></li>
+          <li class="d-inline-block"><a href="{% url 'contact_page' %}" class="text-white text-decoration-none">Contact</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+window.onscroll = function() {myFunction()};
+
+var navbar_sticky = document.getElementById("navbar_sticky");
+var sticky = navbar_sticky.offsetTop;
+var navbar_height = document.querySelector('.navbar').offsetHeight;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky + navbar_height) {
+    navbar_sticky.classList.add("sticky")
+	document.body.style.paddingTop = navbar_height + 'px';
+  } else {
+    navbar_sticky.classList.remove("sticky");
+	document.body.style.paddingTop = '0'
+  }
+}
+</script>
+
+</body>
+
+</html>

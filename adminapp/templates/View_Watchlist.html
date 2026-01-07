@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Watchlist Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4 text-white">🎬 Watchlist</h6>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle text-center mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Username</th>
+                                <th>Movie Title</th>
+                                <th>Poster</th>
+                                <th>Rating</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for item in watch_items %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ item.Username|default:"-" }}</td>
+                                <td>{{ item.title|default:"-" }}</td>
+                                <td style="width: 120px;">
+                                    {% if item.poster_path %}
+                                        <img src="https://image.tmdb.org/t/p/w300{{ item.poster_path }}"
+                                             class="rounded shadow-sm img-fluid"
+                                             style="max-height: 120px;">
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>{{ item.rating|default:"-" }}</td>
+                                <td>
+                                    <a href="{% url 'delete_watchlist_item' item.id %}"
+                                       class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Are you sure you want to remove this movie from the watchlist?')">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">
+                                    No watchlist entries found.
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Watchlist End -->
+
+{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if messages %}
+  {% for i in messages %}
+    <script>
+      Swal.fire({
+        title: "MovieAdmin",
+        text: "{{ i|escapejs }}",
+        background: "#000",
+        color: "#e50914",
+        icon: "{{ i.tags }}",
+        iconColor: "#e50914",
+        confirmButtonColor: "#e50914",
+        timer: 2500,
+        showConfirmButton: false
+      });
+    </script>
+  {% endfor %}
+{% endif %}
+</body>
+</html>

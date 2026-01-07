@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>FilmWise</title>
+
+	<link href="{% static 'website/css/bootstrap.min.css' %}" rel="stylesheet" >
+	<link href="{% static 'website/css/font-awesome.min.css' %}" rel="stylesheet" >
+	<link href="{% static 'website/css/global.css' %}" rel="stylesheet">
+	<link href="{% static 'website/css/index.css' %}" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Rajdhani&display=swap" rel="stylesheet">
+	<script src="{% static 'website/js/bootstrap.bundle.min.js' %}"></script>
+
+
+</head>
+
+<body>
+
+<div class="auth-wrapper d-flex justify-content-center align-items-center" style="min-height:100vh;">
+    <div class="blog_1r1 p-4 mt-4" style="width: 420px; background:#111; border-radius:10px;">
+
+        <h4 class="text-white">Login <span class="col_red">Form</span></h4>
+        <hr class="line mb-4">
+
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <div class="input-group input-group-merge mb-3">
+                <div class="input-group-text bg-transparent text-white border-right-0">
+                    <i class="fa fa-user"></i>
+                </div>
+                <input type="text" name="username" class="form-control bg-transparent text-white"
+                       placeholder="Username" required>
+            </div>
+
+            <!-- Password with eye toggle -->
+            <div class="input-group input-group-merge mb-3">
+                <div class="input-group-text bg-transparent text-white border-right-0">
+                    <i class="fa fa-lock"></i>
+                </div>
+                <input type="password" id="password" name="password"
+                       class="form-control bg-transparent text-white"
+                       placeholder="Password" required>
+                <span class="input-group-text bg-transparent border-left-0 text-white" style="cursor:pointer;"
+                      onclick="togglePassword()">
+                    <i id="toggleIcon" class="fa fa-eye"></i>
+                </span>
+            </div>
+
+            <button type="submit" class="button w-100">
+                <i class="fa fa-sign-in-alt me-1"></i> Login
+            </button>
+        </form>
+
+        <h6 class="mt-3"><a class="col_red" href="{% url 'user_registration' %}">Create an account</a></h6>
+        <h6 class="mt-2 mb-0"><a class="col_red" href="{% url 'admin_login' %}">Admin Login</a></h6>
+
+    </div>
+</div>
+
+
+
+<script>
+function togglePassword() {
+    const password = document.getElementById("password");
+    const icon = document.getElementById("toggleIcon");
+    if (password.type === "password") {
+        password.type = "text";
+        icon.className = "fa fa-eye-slash";
+    } else {
+        password.type = "password";
+        icon.className = "fa fa-eye";
+    }
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if messages %}
+  {% for i in messages %}
+    <script>
+      Swal.fire({
+        title: "FilmWise",
+        text: "{{ i|escapejs }}",
+        background: "#000",
+        color: "#e50914",
+        icon: "{{ i.tags }}",
+        iconColor: "#e50914",
+        confirmButtonColor: "#e50914",
+        timer: 2500,
+        showConfirmButton: false
+      });
+    </script>
+  {% endfor %}
+{% endif %}
+
+</body>
+
+</html>
